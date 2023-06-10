@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Dashboard;
 use Auth;
 use App\Models\User;
+use App\Models\SetBulan;
 use App\Models\Kehadiran;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -10,15 +11,6 @@ use App\Http\Controllers\Controller;
 class DashboardController extends Controller
 {
     private $dasbor;
-    public function getStatusPresensi($nama, $status)
-    {
-        return Kehadiran::selectRaw('count(status_presensi) as ' . $nama)
-            ->where('status_presensi', 'like', $status)
-            ->where('created_at', 'like', '2023-06-%')
-            ->groupBy('user_id')
-            ->orderBy('waktu_presensi', 'asc')
-            ->get();
-    }
     public function countPresensi($data)
     {
         $number = 0;
@@ -27,25 +19,55 @@ class DashboardController extends Controller
         }
         return $number;
     }
+    public function getActiveMonth()
+    {
+        return SetBulan::where('is_active', '1')->first();
+    }
+    public function convertMonth()
+    {
+        $set_bulan = $this->getActiveMonth();
+        if (is_null($set_bulan)) {
+            $set_bulan = null;
+            return;
+        } else {
+            return date('m', strtotime($set_bulan->bulan));
+        }
+    }
+    public function getStatusPresensi($nama, $status)
+    {
+        return Kehadiran::selectRaw('count(status_presensi) as ' . $nama)
+            ->where('status_presensi', 'like', $status)
+            ->where('waktu_presensi', 'like', '2023-' . $this->convertMonth() . '-%')
+            ->groupBy('user_id')
+            ->orderBy('waktu_presensi', 'asc')
+            ->get();
+    }
+    public function getTotalKehadiranKaryawan($status)
+    {
+        return Kehadiran::where('user_id', '=', getUserId())
+            ->where('status_presensi', '=', $status)
+            ->where('waktu_presensi','like','%-'.$this->convertMonth().'-%')
+            ->get();
+    }
     public function dasborKaryawan()
     {
         $date = getDateNowParse();
-        $weekdays = $this->countDays($date['year'], $date['month'], [0, 6]);
-        $presensi = Kehadiran::where('user_id', '=', getUserId())
-            ->where('waktu_presensi', 'like', '2023-06-% 07:20:%')
-            ->get();
-        $izin = Kehadiran::where('user_id', '=', getUserId())
-            ->where('status_presensi', '=', 'izin')
-            ->get();
-        $cuti = Kehadiran::where('user_id', '=', getUserId())
-            ->where('status_presensi', '=', 'cuti')
-            ->get();
+        $weekdays = $this->countDays($date['year'], $this->convertMonth(), [0, 6]);
+        $presensi = is_null($this->getTotalKehadiranKaryawan('hadir')) == true ? [] : $this->getTotalKehadiranKaryawan('hadir');
+        $izin = is_null($this->getTotalKehadiranKaryawan('izin')) == true ? [] : $this->getTotalKehadiranKaryawan('izin');
+        $cuti = is_null($this->getTotalKehadiranKaryawan('cuti')) == true ? [] : $this->getTotalKehadiranKaryawan('cuti');
         $izin_cuti = Kehadiran::where('user_id', '=', getUserId())
             ->whereIn('status_presensi', ['izin', 'cuti'])
+            ->where('waktu_presensi','like','%-'.$this->convertMonth().'-%')
             ->orderBy('waktu_presensi', 'asc')
             ->get();
-        $title = 'Dashboard '.Auth::user()->name;
-        return compact('weekdays', 'presensi', 'izin', 'cuti', 'izin_cuti','title');
+        $title = 'Dashboard ' . Auth::user()->name;
+        $set_bulan = $this->getActiveMonth();
+        if (is_null($set_bulan)) {
+            $set_bulan = null;
+        }
+        $bulan = SetBulan::all();
+        return compact('weekdays', 'presensi', 'izin', 'cuti', 'izin_cuti', 'title', 'set_bulan', 'bulan');
     }
     public function dasborHRD()
     {
@@ -53,12 +75,16 @@ class DashboardController extends Controller
         $presensi = $this->countPresensi($this->getStatusPresensi('total', 'hadir'));
         $izin = $this->countPresensi($this->getStatusPresensi('total', 'izin'));
         $cuti = $this->countPresensi($this->getStatusPresensi('total', 'cuti'));
-        $weekdays = $this->countDays($date['year'], $date['month'], [0, 6]);
+        $weekdays = $this->countDays($date['year'], $this->convertMonth(), [0, 6]);
         $total_karyawan = User::count();
         $total_presensi = $weekdays * $total_karyawan;
-        $title = 'Dashboard '.Auth::user()->name;
-
-        return compact('presensi', 'izin', 'cuti', 'total_presensi','title');
+        $title = 'Dashboard ' . Auth::user()->name;
+        $set_bulan = $this->getActiveMonth();
+        if (is_null($set_bulan)) {
+            $set_bulan = null;
+        }
+        $bulan = SetBulan::all();
+        return compact('presensi', 'izin', 'cuti', 'total_presensi', 'title', 'set_bulan', 'bulan');
     }
     public function index()
     {
@@ -67,7 +93,10 @@ class DashboardController extends Controller
         } elseif (Auth::user()->hasRole('hrd')) {
             $this->dasbor = $this->dasborHRD();
         }
-
+        // return response()->json([
+        //     // 'data' => $this->dasbor,
+        //     'presensi' => $this->getTotalKehadiranKaryawan('hadir')
+        // ]);
         // dd($this->total_presensi);
         return view('Karyawan.dashboard', $this->dasbor);
     }
@@ -87,22 +116,20 @@ class DashboardController extends Controller
     public function getDataKehadiranKaryawan()
     {
         if (Auth::user()->hasRole('karyawan')) {
-            $presensi = count(Kehadiran::where('user_id', '=', getUserId())
-                ->where('waktu_presensi', 'like', '2023-06-% 07:20:%')
-                ->get());
-            $izin = count(Kehadiran::where('user_id', '=', getUserId())
-                ->where('status_presensi', '=', 'izin')
-                ->get());
-            $cuti = count(Kehadiran::where('user_id', '=', getUserId())
-                ->where('status_presensi', '=', 'cuti')
-                ->get());
-        }else if(Auth::user()->hasRole('hrd')){
+            $presensi = count(
+                $this->getTotalKehadiranKaryawan('hadir'),
+            );
+            $izin = count(
+                $this->getTotalKehadiranKaryawan('izin'),
+            );
+            $cuti = count(
+                $this->getTotalKehadiranKaryawan('cuti'),
+            );
+        } elseif (Auth::user()->hasRole('hrd')) {
             $presensi = $this->countPresensi($this->getStatusPresensi('total', 'hadir'));
             $izin = $this->countPresensi($this->getStatusPresensi('total', 'izin'));
             $cuti = $this->countPresensi($this->getStatusPresensi('total', 'cuti'));
         }
-        return response()->json(['total_presensi' => $presensi,
-        'total_izin' => $izin,
-        'total_cuti' => $cuti]);
+        return response()->json(['total_presensi' => $presensi, 'total_izin' => $izin, 'total_cuti' => $cuti]);
     }
 }
