@@ -10,4 +10,5 @@ class KelolaSalary extends Model
     use HasFactory;
     protected $guarded = [];
     protected $table = "kelola_salary";
+    public $timestamps = true;
 }

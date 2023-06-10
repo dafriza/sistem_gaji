@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateKelolaSalaryTable extends Migration
+class CreateSetBulanTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,10 @@ class CreateKelolaSalaryTable extends Migration
      */
     public function up()
     {
-        Schema::create('kelola_salary', function (Blueprint $table) {
+        Schema::create('set_bulan', function (Blueprint $table) {
             $table->id();
-            $table->integer('salary');
+            $table->string('bulan');
+            $table->integer('is_active')->default(0);
             $table->softDeletes();
             $table->timestamps();
         });
@@ -28,6 +29,6 @@ class CreateKelolaSalaryTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('kelola_salary');
+        Schema::dropIfExists('set_bulan');
     }
 }

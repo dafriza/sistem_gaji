@@ -11,6 +11,7 @@ class Salary extends Model
     use HasFactory;
     protected $guarded = [];
     protected $table = "salary";
+    public $timestamps = true;
 
     public function user()
     {

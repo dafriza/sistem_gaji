@@ -25,19 +25,19 @@ class KehadiranFactory extends Factory
                 $date['hour'] = 07;
                 $date['minute'] = 20;
                 $date['year'] = 2023;
-                $date['month'] = 6;
+                $date['month'] = $this->faker->randomElement([4,5,6]);
                 return $date['year'].'-'.$date['month'].'-'.$date['day'].' '.$date['hour'].':'.$date['minute'].':'.$date['second'];
                 break;
             case "izin":
                 $date = date_parse(new Carbon(Carbon::today()->subDays(rand(180, 210))));
                 $date['year'] = 2023;
-                $date['month'] = 6;
+                $date['month'] = $this->faker->randomElement([4,5,6]);
                 return $date['year'].'-'.$date['month'].'-'.$date['day'].' '.$date['hour'].':'.$date['minute'].':'.$date['second'];
                 break;
             case "cuti":
                 $date = date_parse(new Carbon(Carbon::today()->subDays(rand(180, 210))));
                 $date['year'] = 2023;
-                $date['month'] = 6;
+                $date['month'] = $this->faker->randomElement([4,5,6]);
                 return $date['year'].'-'.$date['month'].'-'.$date['day'].' '.$date['hour'].':'.$date['minute'].':'.$date['second'];
                 break;
             case "pulang":
@@ -45,7 +45,7 @@ class KehadiranFactory extends Factory
                 $date['hour'] = 16;
                 $date['minute'] = 20;
                 $date['year'] = 2023;
-                $date['month'] = 6;
+                $date['month'] = $this->faker->randomElement([4,5,6]);
                 return $date['year'].'-'.$date['month'].'-'.$date['day'].' '.$date['hour'].':'.$date['minute'].':'.$date['second'];
                 break;
         }

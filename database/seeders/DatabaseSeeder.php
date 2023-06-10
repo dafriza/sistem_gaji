@@ -6,8 +6,9 @@ use App\Models\User;
 use App\Models\Salary;
 use App\Models\Kehadiran;
 use Illuminate\Database\Seeder;
-use Database\Seeders\PermissionDemoSeeder;
+use Database\Seeders\SetBulanSeeder;
 use Spatie\Permission\Models\Permission;
+use Database\Seeders\PermissionDemoSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -20,11 +21,12 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             PermissionDemoSeeder::class,
+            SetBulanSeeder::class
         ]);
-        for ($i = 0; $i < 10; $i++) {
+        for ($i = 0; $i < 20; $i++) {
             $user = User::factory()->create()->assignRole('karyawan');
             Kehadiran::factory()
-                ->count(30)
+                ->count(90)
                 ->for($user)
                 ->create();
         }

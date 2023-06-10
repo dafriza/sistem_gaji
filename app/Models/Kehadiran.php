@@ -12,7 +12,7 @@ class Kehadiran extends Model
     protected $table = "kehadiran";
 
     protected $guarded =[];
-
+    public $timestamps = true;
     public function user()
     {
         return $this->belongsTo(User::class,'user_id','id');
