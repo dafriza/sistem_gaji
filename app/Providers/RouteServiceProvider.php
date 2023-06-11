@@ -64,6 +64,10 @@ class RouteServiceProvider extends ServiceProvider
                 Route::middleware('web','auth')
                 ->namespace($this->namespace)
                 ->group(base_path('routes/slip_gaji/slip_gaji.php'));
+
+                Route::middleware('web','auth')
+                ->namespace($this->namespace)
+                ->group(base_path('routes/dom_pdf/dom_pdf.php'));
         });
     }
 

@@ -46,6 +46,14 @@
             <span>Slip Gaji Karyawan</span></a>
     </li>
     @endcan
+    @can('slip_gaji_user', SlipGajiController::class)
+    <!-- Nav Item - Charts -->
+    <li class="nav-item">
+        <a class="nav-link" href="{{route('slip_gaji.index')}}">
+            <i class="fas fa-fw fa-chart-area"></i>
+            <span>Slip Gaji</span></a>
+    </li>
+    @endcan
 
     <!-- Nav Item - Tables -->
     <li class="nav-item">

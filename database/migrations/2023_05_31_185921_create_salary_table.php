@@ -17,6 +17,8 @@ class CreateSalaryTable extends Migration
             $table->id();
             $table->string('name',100);
             $table->integer('total_kehadiran');
+            $table->integer('total_izin');
+            $table->integer('total_cuti');
             $table->bigInteger('salary_karyawan');
             $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
             $table->softDeletes();
