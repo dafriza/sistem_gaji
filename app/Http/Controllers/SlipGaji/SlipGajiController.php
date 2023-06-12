@@ -147,7 +147,7 @@ class SlipGajiController extends Controller
         //     'result' => $this->dasbor
         // ]
         // );
-        return view('Karyawan.slip_gaji', $this->dasbor);
+        return view('Karyawan.slip_gaji',$this->dasbor);
     }
     public function storeKelolaSalary(Request $request)
     {

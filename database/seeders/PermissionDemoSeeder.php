@@ -43,8 +43,6 @@ class PermissionDemoSeeder extends Seeder
         $hrd->givePermissionTo('rekap_presensi_admin');
         $hrd->givePermissionTo('perhitungan_gaji');
 
-
-        $superadminRole = Role::create(['name' => 'super-admin']);
         // gets all permissions via Gate::before rule
 
         // create demo users
@@ -61,12 +59,5 @@ class PermissionDemoSeeder extends Seeder
             'password' => Hash::make('2')
         ]);
         $user->assignRole($hrd);
-
-        $user = User::factory()->create([
-            'name' => 'Super Admin',
-            'email' => 'superadmin@gmail.com',
-            'password' => Hash::make('3')
-        ]);
-        $user->assignRole($superadminRole);
     }
 }
