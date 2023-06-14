@@ -55,12 +55,14 @@
     </li>
     @endcan
 
+    @can('create_user')
     <!-- Nav Item - Tables -->
     <li class="nav-item">
         <a class="nav-link" href="{{route('creator.index')}}">
             <i class="fas fa-fw fa-table"></i>
             <span>Create User</span></a>
     </li>
+    @endcan
 
     <!-- Divider -->
     <hr class="sidebar-divider d-none d-md-block">

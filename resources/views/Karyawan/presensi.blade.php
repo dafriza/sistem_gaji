@@ -45,15 +45,15 @@
                                 @csrf
                                 <input type="hidden" value="hadir" name="presensi">
                                 <h6 class="mt-3">Presensi dibuka 07.00 - 07.30 masuk</h6>
-                                @if (now() > now()->setTime(7, 30))
-                                    <button type="submit" class="btn btn-primary" disabled>Presensi Kehadiran</button>
-                                @else
+                                @if (now() > now()->setTime(7, 30) && now() < now()->setTIme(8, 00))
                                     <button type="submit" class="btn btn-primary">Presensi Kehadiran</button>
+                                @else
+                                    <button type="submit" class="btn btn-primary" disabled>Presensi Kehadiran</button>
                                 @endif
                                 {{-- <button type="submit" class="btn btn-primary">Presensi Kehadiran</button> --}}
                             </form>
 
-                            <form action="{{route('presensi.store')}}" method="post">
+                            <form action="{{ route('presensi.store') }}" method="post">
                                 @csrf
                                 <input type="hidden" value="pulang" name="presensi">
                                 <h6 class="mt-5">Presensi dibuka 16.30 - 17.00 masuk</h6>

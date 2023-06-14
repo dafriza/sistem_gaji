@@ -42,6 +42,7 @@ class PermissionDemoSeeder extends Seeder
         $hrd->givePermissionTo('slip_gaji_admin');
         $hrd->givePermissionTo('rekap_presensi_admin');
         $hrd->givePermissionTo('perhitungan_gaji');
+        $hrd->givePermissionTo('create_user');
 
         // gets all permissions via Gate::before rule
 

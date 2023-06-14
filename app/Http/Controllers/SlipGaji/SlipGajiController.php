@@ -119,7 +119,14 @@ class SlipGajiController extends Controller
         $hadir = is_null($this->getTotalKehadiranKaryawan('hadir')) == true ? [] : $this->getTotalKehadiranKaryawan('hadir');
         $izin = is_null($this->getTotalKehadiranKaryawan('izin')) == true ? [] : $this->getTotalKehadiranKaryawan('izin');
         $cuti = is_null($this->getTotalKehadiranKaryawan('cuti')) == true ? [] : $this->getTotalKehadiranKaryawan('cuti');
-        $name = SetBulan::where('is_active', '1')->first()->bulan;
+        $name;
+        if(is_null($this->getActiveMonth())){
+            // return redirect()->back()->with('error','Bulan belum disetting admin!');
+            return abort(500,'Bulan belum disetting!');
+        }else{
+            $name = $this->getActiveMonth()->bulan;
+        }
+        // $name = $this->getActiveMonth();
         $salary =
             is_null(
                 Salary::where('name', 'like', $name)
