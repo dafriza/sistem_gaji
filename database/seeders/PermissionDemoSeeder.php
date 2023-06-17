@@ -30,12 +30,17 @@ class PermissionDemoSeeder extends Seeder
         Permission::create(['name' => 'rekap_presensi_admin']);
         Permission::create(['name' => 'perhitungan_gaji']);
         Permission::create(['name' => 'create_user']);
+        Permission::create(['name' => 'PT_SMK']);
+        Permission::create(['name' => 'PT_AEI']);
 
         //create roles and assign existing permissions
         $karyawan = Role::create(['name' => 'karyawan']);
         $karyawan->givePermissionTo('dashboard_user');
         $karyawan->givePermissionTo('slip_gaji_user');
         $karyawan->givePermissionTo('rekap_presensi_user');
+        // $karyawan->givePermissionTo('PT_SMK');
+        // $karyawan->givePermissionTo('PT_AEI');
+
 
         $hrd = Role::create(['name' => 'hrd']);
         $hrd->givePermissionTo('dashboard_admin');

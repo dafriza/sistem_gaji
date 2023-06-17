@@ -93,9 +93,10 @@ class DashboardController extends Controller
         } elseif (Auth::user()->hasRole('hrd')) {
             $this->dasbor = $this->dasborHRD();
         }
+        // $pt = ['PT_SMK','PT_AEI'];
         // return response()->json([
-        //     // 'data' => $this->dasbor,
-        //     'presensi' => $this->getTotalKehadiranKaryawan('hadir')
+        //     'data' => User::permission('PT_AEI')->get()
+        //     // 'data' => $pt[array_rand($pt,1)]
         // ]);
         // dd($this->total_presensi);
         return view('Karyawan.dashboard', $this->dasbor);

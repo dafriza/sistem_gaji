@@ -15,8 +15,16 @@ class AuthController extends Controller
     {
         $auth = Auth::attempt(['email' => $request->email, 'password' => $request->password]);
         if ($auth) {
-            $request->session()->regenerate();
-            $request->session()->put('pt', $request->pt);
+            if(Auth::user()->hasPermissionTo('PT_SMK')){
+                $request->session()->regenerate();
+                $request->session()->put('pt', 'PT Sekawan Mitra Kreasi');
+            }else if(Auth::user()->hasPermissionTo('PT_SMK')){
+                $request->session()->regenerate();
+                $request->session()->put('pt', 'PT Avatar Express Indonesia');
+            }else{
+                $request->session()->regenerate();
+                $request->session()->put('pt', 'PT Sekawan Group');
+            }
             return redirect()
                 ->route('dashboard')
                 ->with('success', 'Anda berhasil login!');

@@ -18,7 +18,13 @@
         rel="stylesheet">
 
     <!-- Custom styles for this template-->
-    <link href="{{ asset('assets/css/sb-admin-2.min.css') }}" rel="stylesheet">
+    @if (Auth::user()->hasPermissionTo('PT_SMK'))
+        <link href="{{ asset('assets/css/sb-admin-2.min.css') }}" rel="stylesheet">
+    @elseif (Auth::user()->hasPermissionTo('PT_AEI'))
+        <link href="{{ asset('assets/css/sb-admin-2.min copy.css') }}" rel="stylesheet">
+    @else
+        <link href="{{ asset('assets/css/sb-admin-2.min copy.css') }}" rel="stylesheet">
+    @endif
     @stack('style')
 </head>
 

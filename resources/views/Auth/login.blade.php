@@ -51,13 +51,13 @@
                                             <input type="password" class="form-control form-control-user"
                                                 placeholder="Password" name="password">
                                         </div>
-                                        <div class="form-group">
+                                        {{-- <div class="form-group">
                                             <select class="form-control" name="pt">
                                                 <option value="PT Sekawan Mitra Kreasi">PT Sekawan Mitra Kreasi</option>
                                                 <option value="PT Avatar Express Indonesia">PT Avatar Express Indonesia
                                                 </option>
                                             </select>
-                                        </div>
+                                        </div> --}}
                                         <button type="submit" class="btn btn-primary btn-user btn-block">
                                             Login
                                         </button>

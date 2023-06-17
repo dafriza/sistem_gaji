@@ -17,7 +17,7 @@
 <body>
     <div class="container-fluid">
         <div class="row">
-            <div class="col">Nama PT</div>
+            <div class="col">{{session('pt')}}</div>
             <div class="col">Nama Karyawan : {{ $data->user->name }}</div>
             <div class="col">Total Kehadiran Bulan {{ $data->name }} : {{ $data->total_kehadiran }}</div>
         </div>
