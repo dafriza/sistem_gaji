@@ -12,7 +12,7 @@ class CreatorController extends Controller
     public function index()
     {
         $title = 'Create User';
-        $data['data'] = User::with('roles')->get();
+        $data['data'] = User::with('roles','permissions')->get();
         // $data = User::with('roles')->get()->take(2);
         $data['trashed'] = [];
         if(!is_null(User::onlyTrashed()->get())){

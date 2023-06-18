@@ -44,10 +44,9 @@ let getData = $.ajax({
               labels: ["Total presensi", "Total izin", "Total cuti"],
               datasets: [{
                 data: [data.total_presensi, data.total_izin, data.total_cuti],
-                // backgroundColor: ['#4e73df', '#1cc88a', '#36b9cc'],
-                backgroundColor: ['#454545', '#FF6000', '#FFA559'],
-                // hoverBackgroundColor: ['#454545', '#FF6000', '#FFA559'],
-                // hoverBorderColor: "rgba(234, 236, 244, 1)",
+                backgroundColor: ['#4e73df', '#1cc88a', '#36b9cc'],
+                hoverBackgroundColor: ['#2e59d9', '#17a673', '#2c9faf'],
+                hoverBorderColor: "rgba(234, 236, 244, 1)",
               }],
             },
             options: {

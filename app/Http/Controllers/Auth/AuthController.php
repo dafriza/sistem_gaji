@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Auth;
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -9,6 +10,10 @@ class AuthController extends Controller
 {
     public function login()
     {
+        // return response()->json([
+        //         'data' => User::permission('PT_AEI')->get()
+        //         // 'data' => $pt[array_rand($pt,1)]
+        //     ]);
         return view('Auth.login');
     }
     public function authentication(Request $request)

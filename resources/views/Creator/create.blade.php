@@ -35,6 +35,7 @@
                                         <th scope="col">Name</th>
                                         <th scope="col">Email</th>
                                         <th scope="col">Role</th>
+                                        <th scope="col">PT</th>
                                         <th scope="col">Action</th>
                                     </tr>
                                 </thead>
@@ -46,6 +47,7 @@
                                             <td>{{ $val->name }}</td>
                                             <td>{{ $val->email }}</td>
                                             <td>{{ $val->roles[0]->name }}</td>
+                                            <td>{{ $val->permissions[0]->name ?? 'HRD' }}</td>
                                             <td>
                                                 <a class="btn btn-primary mr-1" href="{{route('creator.view',['id' => $val->id])}}"
                                                     role="button">Edit

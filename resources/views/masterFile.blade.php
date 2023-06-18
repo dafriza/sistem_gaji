@@ -19,9 +19,9 @@
 
     <!-- Custom styles for this template-->
     @if (Auth::user()->hasPermissionTo('PT_SMK'))
-        <link href="{{ asset('assets/css/sb-admin-2.min.css') }}" rel="stylesheet">
-    @elseif (Auth::user()->hasPermissionTo('PT_AEI'))
         <link href="{{ asset('assets/css/sb-admin-2.min copy.css') }}" rel="stylesheet">
+    @elseif (Auth::user()->hasPermissionTo('PT_AEI'))
+        <link href="{{ asset('assets/css/sb-admin-2.min.css') }}" rel="stylesheet">
     @else
         <link href="{{ asset('assets/css/sb-admin-2.min copy.css') }}" rel="stylesheet">
     @endif
@@ -110,7 +110,11 @@
     <script src="{{ asset('assets/vendor/chart.js/Chart.min.js') }}"></script>
 
     <!-- Page level custom scripts -->
-    <script src="{{ asset('assets/js/demo/chart-pie-demo.js') }}"></script>
+    @if (Auth::user()->hasPermissionTo('PT_SMK'))
+        <script src="{{ asset('assets/js/demo/chart-pie-demo copy.js') }}"></script>
+    @elseif (Auth::user()->hasPermissionTo('PT_AEI'))
+        <script src="{{ asset('assets/js/demo/chart-pie-demo.js') }}"></script>
+    @endif
     @include('sweetalert::alert')
 
     @stack('scripts')
