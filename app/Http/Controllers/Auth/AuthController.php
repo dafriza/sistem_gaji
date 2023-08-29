@@ -23,7 +23,7 @@ class AuthController extends Controller
             if(Auth::user()->hasPermissionTo('PT_SMK')){
                 $request->session()->regenerate();
                 $request->session()->put('pt', 'PT Sekawan Mitra Kreasi');
-            }else if(Auth::user()->hasPermissionTo('PT_SMK')){
+            }else if(Auth::user()->hasPermissionTo('PT_AEI')){
                 $request->session()->regenerate();
                 $request->session()->put('pt', 'PT Avatar Express Indonesia');
             }else{
