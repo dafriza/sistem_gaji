@@ -61,9 +61,16 @@ class PermissionDemoSeeder extends Seeder
 
         $user = User::factory()->create([
             'name' => 'HRD',
-            'email' => 'hrd@salary.com',
+            'email' => 'hrd_smk@salary.com',
             'password' => Hash::make('2')
         ]);
-        $user->assignRole($hrd);
+        $user->assignRole($hrd)->givePermissionTo('PT_SMK');
+
+        $user2 = User::factory()->create([
+            'name' => 'HRD',
+            'email' => 'hrd_aei@salary.com',
+            'password' => Hash::make('2')
+        ]);
+        $user2->assignRole($hrd)->givePermissionTo('PT_AEI');
     }
 }

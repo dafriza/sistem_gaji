@@ -48,7 +48,7 @@
                             @endcan
                             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                 {{-- Bulan {{ date_format(now(), 'M') }}</div> --}}
-                                Bulan {{$set_bulan->bulan}}</div>
+                                Bulan {{$set_bulan->bulan ?? ''}}</div>
                             @can('dashboard_user')
                                 <div class="h5 mb-0 font-weight-bold text-gray-800">{{ count($presensi) . ' / ' . $weekdays }}
                                 @endcan
@@ -79,7 +79,7 @@
                                     <h5>Izin Karyawan</h5>
                                 @endcan
                                 <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                    Bulan {{$set_bulan->bulan}}</div>
+                                    Bulan {{$set_bulan->bulan ?? ''}}</div>
                                 @can('dashboard_user')
                                     <div class="h5 mb-0 font-weight-bold text-gray-800">{{ count($izin) }}</div>
                                 @endcan
@@ -108,7 +108,7 @@
                                     <h5>Cuti Karyawan</h5>
                                 @endcan
                                 <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Bulan
-                                    {{$set_bulan->bulan}}
+                                    {{$set_bulan->bulan ?? ''}}
                                 </div>
                                 <div class="row no-gutters align-items-center">
                                     @can('dashboard_user')

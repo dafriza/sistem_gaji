@@ -26,9 +26,6 @@ class AuthController extends Controller
             }else if(Auth::user()->hasPermissionTo('PT_AEI')){
                 $request->session()->regenerate();
                 $request->session()->put('pt', 'PT Avatar Express Indonesia');
-            }else{
-                $request->session()->regenerate();
-                $request->session()->put('pt', 'PT Sekawan Group');
             }
             return redirect()
                 ->route('dashboard')
