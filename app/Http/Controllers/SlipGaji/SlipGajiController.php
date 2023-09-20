@@ -10,6 +10,7 @@ use App\Models\KelolaSalary;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\SalaryRequest;
 use Illuminate\Support\Facades\Auth;
 
 class SlipGajiController extends Controller
@@ -156,19 +157,17 @@ class SlipGajiController extends Controller
         // );
         return view('Karyawan.slip_gaji',$this->dasbor);
     }
-    public function storeKelolaSalary(Request $request)
+    public function storeKelolaSalary(SalaryRequest $request)
     {
         // dd($request->all());
         $kelola_salary = KelolaSalary::all()->first();
         $status_kelola['status'] = true;
         if (is_null($kelola_salary)) {
             $status_kelola['status'] = false;
-            KelolaSalary::create([
-                'salary' => $request->salary,
-            ]);
+            KelolaSalary::create($request->validated());
             Alert::success('Success', 'Berhasil input salary!');
         } else {
-            KelolaSalary::where('id', '1')->update(['salary' => $request->salary]);
+            KelolaSalary::where('id', '1')->update($request->validated());
             Alert::success('Success', 'Berhasil update salary!');
         }
         return redirect()->back();
@@ -214,5 +213,9 @@ class SlipGajiController extends Controller
         return redirect()
             ->back()
             ->with('success', 'Berhasil reset!');
+    }
+
+    function isErrorSalary() {
+
     }
 }
